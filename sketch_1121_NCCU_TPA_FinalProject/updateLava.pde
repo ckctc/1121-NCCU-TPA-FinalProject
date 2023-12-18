@@ -9,7 +9,7 @@ void updateLava() {
     for (int x = 0; x < cols; x++) {
 
       float n = noise(xOffset, yOffset, frameCount * flowSpeed);
-      float bright = map(n, 0, 1, 40, 150);
+      float bright = map(n, 0, 1, 35, 150);
 
       int pix = x + y * cols;
       pixels[pix] = color(bright * 2, 0, 0);
