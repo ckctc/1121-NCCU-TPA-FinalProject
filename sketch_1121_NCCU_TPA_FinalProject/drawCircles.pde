@@ -31,7 +31,6 @@ void drawCircles(){
   }
  
   randSize = random(-5,5);
-  //circleColor = color(0,0,0);
   
   circleXoffset = circleXoffset + NewRandX;
   circleYoffset = circleYoffset + NewRandY;
