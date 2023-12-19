@@ -6,6 +6,10 @@ float circleYoffset = 450;
 int circleDrawFreq = 20;
 ArrayList<Circles>CirclesGroup;
 
+// Bluetooth parser
+BluetoothParser BTParser;
+int PortNumber = 2;
+
 
 void setup() {
   fill(0, 0, 0);
@@ -18,9 +22,18 @@ void setup() {
   smooth();
   CirclesGroup = new ArrayList<Circles>();
   CirclesGroup.add(new Circles(35, 35, 1, 255));
+  
+  // init btparser
+  BTParser = new BluetoothParser(this, PortNumber);
+  
 }
 
 void draw() {
+  // Update parser
+  BTParser.update();
+  // Print out bluetooth data
+  println("X: " + BTParser.ax + "\tY: " + BTParser.ay + "\tZ: " + BTParser.az);
+  
   
   background(0);
   
