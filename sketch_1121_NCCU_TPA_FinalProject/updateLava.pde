@@ -12,7 +12,7 @@ void updateLava() {
       float bright = map(n, 0, 1, 20, 150);
 
       int pix = x + y * cols;
-      pixels[pix] = color(bright * 2, 0, 0);
+      pixels[pix] = color(bright * 2, dampenAcc * 180, dampenAcc * 120);
 
       xOffset += noiseScale;
       

@@ -9,15 +9,15 @@ Delay delay;
 float globalVolume = 0;
 
 float dampenAcc = 0;
-float dampenRatio = 0.05;
+float dampenRatio = 0.08;
 
 float progression = 0;
 float progressionRate = 0.01;
-float baseProgression = 0.002;
+float baseProgression = 0.005;
 float progressionEnd = 100;
 boolean canProgress = false;
 
-float WNoffAmount = 1500;
+float WNoffAmount = 2500;
 float WNoffVal = 0;
 
 //======================================================
@@ -73,12 +73,12 @@ void musicUpdate(float accValue)
   else
   {
     if (globalVolume > 0)
-      globalVolume -= 0.01;
+      globalVolume -= 0.1;
     else
       globalVolume = 0;
   }
   // Manages the oscillators
-  WNoffVal += WNoffAmount * pow(dampenAcc, 2);
+  WNoffVal += WNoffAmount * pow(dampenAcc, 1);
   float WNAmp = constrain(sinOscVal(1.8, 0.5, WNoffVal), -0.4, 0.5) + 0.5;
   WNAmp *= map(currProgress, 0.0, 0.05, 0.0, 0.22) + map(currProgress, 0.0, 0.5, 0.0, 0.08);
   WN.amp(WNAmp * globalVolume);
@@ -92,13 +92,13 @@ void musicUpdate(float accValue)
   Fsh3.amp(Fsh3Amp * globalVolume);
   
   float midDisAmp = constrain((currProgress - 0.45) / 0.15, 0.0, 1.0) * 0.2;
-  midDisAmp = constrain(midDisAmp + (midDisAmp * sinOscVal(0.1, 0.15)), 0.0, 1.0);
+  midDisAmp = constrain(midDisAmp + (midDisAmp * sinOscVal(0.4, 0.15)), 0.0, 1.0);
   midDisAmp += midDisAmp * dampenAcc * 0.15;
   Ash3.amp(midDisAmp * map(dampenAcc, 0, 1, 0.5, 1.0) * globalVolume);
   B3.amp(midDisAmp * map(dampenAcc, 0, 1, 1.0, 0.5) * globalVolume);
   
   float E4Amp = constrain((currProgress - 0.65) / 0.12, 0.0, 1.0) * 0.25;
-  E4Amp = constrain(E4Amp + (E4Amp * sinOscVal(0.2, 0.12)), 0.0, 1.0);
+  E4Amp = constrain(E4Amp + (E4Amp * sinOscVal(0.7, 0.15)), 0.0, 1.0);
   E4.amp(E4Amp * globalVolume);
   
   float highDisAmp = map(currProgress, 0.75, 0.85, 0.0, 0.2);
@@ -114,7 +114,12 @@ void musicUpdate(float accValue)
 void keyPressed()
 {
   if (key == ' ')
-    canProgress = true;
+  {
+    if (canProgress)
+      canProgress = false;
+    else
+      canProgress = true;
+  }
   if (key == 'a')
     progression += 0.1;
 }
@@ -128,7 +133,8 @@ void printData()
     println("PRESS SPACE TO START");
   } else
   {
-    println("progress: " + progression);
+    println("progress(%): " + progression);
+    println("dampenedAcc: " + dampenAcc);
   }
   println("========================");
 }
